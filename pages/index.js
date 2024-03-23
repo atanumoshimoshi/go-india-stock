@@ -1,118 +1,145 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useState } from "react";
+import DiscussionForm from "./components/DiscussionForm";
+import MarketStories from "./components/MarketStories";
 
 export default function Home() {
+  const [open, setOpen] = useState(true);
+  const [showDiscussionForm, setShowDiscussionForm] = useState(DiscussionForm);
+  const [showMarketStories, setShowMarketStories] = useState();
+  const [showDiscussionForm1, setShowDiscussionForm1] =
+    useState(DiscussionForm);
+  const [showMarketStories1, setShowMarketStories1] = useState(MarketStories);
+
+  const handleMenuClick = (index) => {
+    if (index === 0) {
+      setShowDiscussionForm(true);
+      // setShowDiscussionForm1(true);
+      setShowMarketStories(false);
+      // setShowMarketStories1(false)
+    } else if (index === 1) {
+      setShowDiscussionForm(false);
+      // setShowDiscussionForm1(false);
+
+      setShowMarketStories(true);
+      // setShowMarketStories1(true);
+    }
+  };
+
+  const minus = [
+    {
+      title: "Discussion Form",
+      image: "/assets/img1.png",
+      image1: "/assets/whitearrow.png",
+    },
+    {
+      title: "Market Stories",
+      image: "/assets/img3.png",
+      image1: "/assets/whitearrow.png",
+    },
+    { title: "Sentiment", image: "/assets/img2.png" },
+    { title: "Market", image: "/assets/img4.png" },
+    { title: "Sector", image: "/assets/img5.jpg", gap: true },
+    { title: "Watchlist", image: "/assets/img6.png" },
+    { title: "Events", image: "/assets/img1.png" },
+    { title: "News/Interview", image: "/assets/img2.png" },
+  ];
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="flex">
+      <div
+        className={`${
+          open ? "lg:w-72 w-60" : "w-8"
+        } duration-300 h-[850px]  bg-gray-600 relative overflow-y-scroll overflow-x-hidden`}
+      >
+        <img
+          src="/assets/arrow.png"
+          alt="arrows"
+          className={`absolute cursor-pointer rounded-full -right-0 lg:top-[30%] top-[26%]  w-7 border-2 border-white ${
+            !open && "rotate-180"
+          }`}
+          onClick={() => setOpen(!open)}
+        />
+        <div className="flex gap-x-4 items-center mb-4 pb-2 border-b-2 border-gray-500">
+          <img
+            src="/assets/contact.png"
+            className={`cursor-pointer duration-500 w-8 h-8 rounded-[50%] ${
+              !open && "rotate-[360deg]"
+            }`}
+          />
+          <h1
+            className={`text-white origin-left font-medium lg:text-xl text-[8px] 
+          duration-300 ${!open && "scale-0"}`}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            Hello,User
+          </h1>
+        </div>
+        <div className="">
+          <ul>
+            {minus.map((menu, index) => (
+              <li
+                key={index}
+                className={`text-gray-300 lg:text-sm text-[8px] flex items-center lg:gap-x-4 gap-x-2 cursor-pointer lg:p-2 p-[13px] bg-light-white hover:bg-black rounded-md ${
+                  menu.gap ? "lg:mt-0 mt-2" : "mt-2"
+                }`}
+                onClick={() => handleMenuClick(index)}
+              >
+                <img
+                  src={menu.image}
+                  className="lg:w-8 w-4 lg:h-8 h-4 rounded-[50%]"
+                />
+                <span
+                  className={`${!open && "hidden"} origin-left duration-200`}
+                >
+                  {menu.title}
+                </span>
+                {index === 0 && (
+                  <img src={menu.image1} className="w-4 h-4 lg:ml-6" />
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <div className="lg:block hidden">
+        <div
+          className={` p-7 flex ${
+            !open ? "gap-20  items-start justify-center" : "gap-4"
+          }  flex-1 h-screen`}
+        >
+          {showDiscussionForm1 && <DiscussionForm />}
+          {showMarketStories1 && <MarketStories />}
+        </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+      <div className="block lg:hidden">
+        <div className="flex justify-center items-start w-[100%]">
+          <button
+            className={`border-2 border-black w-[50%] ${
+              showDiscussionForm ? "bg-gray-400" : "bg-gray-200"
+            }`}
+            onClick={() => handleMenuClick(0)}
+          >
+            DiscussionForm
+          </button>
+          <button
+            className={`border-2 border-black w-[50%] ${
+              showMarketStories ? "bg-gray-400" : "bg-gray-200"
+            }`}
+            onClick={() => handleMenuClick(1)}
+          >
+            MarketStories
+          </button>
+        </div>
+        <div>
+          <div
+            className={` p-7 flex ${
+              !open ? "gap-20  items-start justify-center" : "gap-4"
+            }  overflow-y-scroll flex-1 h-screen`}
+          >
+            {showDiscussionForm && <DiscussionForm />}
+            {showMarketStories && <MarketStories />}
+          </div>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
